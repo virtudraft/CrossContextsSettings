@@ -68,6 +68,7 @@ class SettingUpdateFromGridProcessor extends modObjectProcessor {
                             $message = $this->modx->lexicon('crosscontextssettings.err_setting_save', array('key' => $props['key'], 'context' => $k));
                             $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
                             $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] ' . $message);
+                            continue;
                             return $this->failure($message);
                         }
                     }
@@ -79,6 +80,10 @@ class SettingUpdateFromGridProcessor extends modObjectProcessor {
                     $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
                     $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] ' . $message);
                     return $this->failure($message);
+                }
+            } else {
+                if ($setting) {
+                    $setting->remove();
                 }
             }
         }
