@@ -57,23 +57,30 @@ class SettingUpdateFromGridProcessor extends modObjectProcessor {
                 'key' => $props['key'],
                 'context_key' => $k,
             ));
-            if (!$setting) {
-                if (isset($props[$k])) {
-                    $setting = $this->modx->newObject($this->classKey);
-                    $setting->set('key', $props['key']);
-                    $setting->set('context_key', $k);
-                    $setting->set('value', $props[$k]);
-                    if ($setting->save() === false) {
-                        $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
-                        $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] Could not save setting "' . $props['key'] . '" for context "' . $k . '"');
+            if (!empty($v)) {
+                if (!$setting) {
+                    if (isset($props[$k])) {
+                        $setting = $this->modx->newObject($this->classKey);
+                        $setting->set('key', $props['key']);
+                        $setting->set('context_key', $k);
+                        $setting->set('value', $props[$k]);
+                        if ($setting->save() === false) {
+                            $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
+                            $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] Could not save setting "' . $props['key'] . '" for context "' . $k . '"');
+                            continue;
+                        }
                     }
                 }
-                continue;
-            }
-            $setting->set('value', $props[$k]);
-            if ($setting->save() === false) {
-                $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
-                $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] Could not save setting "' . $props['key'] . '" for context "' . $k . '"');
+                $setting->set('value', $props[$k]);
+                if ($setting->save() === false) {
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] Could not save setting "' . $props['key'] . '" for context "' . $k . '"');
+                    continue;
+                }
+            } else {
+                if ($setting) {
+                    $setting->remove();
+                }
             }
         }
     }
