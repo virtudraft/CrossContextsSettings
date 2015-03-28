@@ -57,27 +57,29 @@ class SettingUpdateFromGridProcessor extends modObjectProcessor {
                 'key' => $props['key'],
                 'context_key' => $k,
             ));
-            if (!$setting) {
-                if (isset($props[$k])) {
-                    $setting = $this->modx->newObject($this->classKey);
-                    $setting->set('key', $props['key']);
-                    $setting->set('context_key', $k);
-                    $setting->set('value', $props[$k]);
-                    if ($setting->save() === false) {
-                        $message = $this->modx->lexicon('crosscontextssettings.err_setting_save', array('key' => $props['key'], 'context' => $k));
-                        $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
-                        $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] ' . $message);
-                        return $this->failure($message);
+            if (!empty($v)) {
+                if (!$setting) {
+                    if (isset($props[$k])) {
+                        $setting = $this->modx->newObject($this->classKey);
+                        $setting->set('key', $props['key']);
+                        $setting->set('context_key', $k);
+                        $setting->set('value', $props[$k]);
+                        if ($setting->save() === false) {
+                            $message = $this->modx->lexicon('crosscontextssettings.err_setting_save', array('key' => $props['key'], 'context' => $k));
+                            $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
+                            $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] ' . $message);
+                            return $this->failure($message);
+                        }
                     }
+                    continue;
                 }
-                continue;
-            }
-            $setting->set('value', $props[$k]);
-            if ($setting->save() === false) {
-                $message = $this->modx->lexicon('crosscontextssettings.err_setting_save', array('key' => $props['key'], 'context' => $k));
-                $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
-                $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] ' . $message);
-                return $this->failure($message);
+                $setting->set('value', $props[$k]);
+                if ($setting->save() === false) {
+                    $message = $this->modx->lexicon('crosscontextssettings.err_setting_save', array('key' => $props['key'], 'context' => $k));
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] ' . $message);
+                    return $this->failure($message);
+                }
             }
         }
         return $this->success();
