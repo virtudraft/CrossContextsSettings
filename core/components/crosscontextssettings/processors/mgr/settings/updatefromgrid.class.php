@@ -29,7 +29,7 @@ class SettingUpdateFromGridProcessor extends modObjectProcessor {
 
     public $classKey = 'modContextSetting';
     public $languageTopics = array('crosscontextssettings:default');
-    public $objectType = 'crosscontextssettings.SettingUpdateFromGrid';
+    public $objectType = 'crosscontextssettings.settingsupdatefromgrid';
 
     public function initialize() {
         $data = $this->getProperty('data');
