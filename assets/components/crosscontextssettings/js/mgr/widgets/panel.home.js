@@ -6,7 +6,7 @@ CrossContextsSettings.panel.Home = function (config) {
         , cls: 'container'
         , items: [
             {
-                html: '<b style="font-size: 22px;">' + _('crosscontextssettings') + '</b> ' + CrossContextsSettings.config.version
+                html: '<h2>'+ _('crosscontextssettings') + ' <span style="font-size: small">'+ CrossContextsSettings.config.version+'</span></h2>'
                 , border: false
                 , cls: 'modx-page-header'
             }, {
