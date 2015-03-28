@@ -1,3 +1,16 @@
+CrossContextsSettings 1.0.0-beta3 (March 28, 2015)
+-------------------------------------------------------
+- fixing pagination issue in MODX Revolution 2.3
+- reduced pagesize to 10 and adapted grid height to show the whole grid
+  (autoHeight is not possible because of lockinggridview limitations)
+- fixing area filter (processor does not exist)
+- fixing #3 Edited triangle does not go away
+- changed UX to make the CMP look the same as other extras
+
+CrossContextsSettings 1.0.0-beta2 (September 30, 2014)
+-------------------------------------------------------
+- prevent saving/remove setting when value is empty
+
 CrossContextsSettings 1.0.0-beta1 (September 25, 2014)
 -------------------------------------------------------
 - initial release
