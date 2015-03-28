@@ -37,11 +37,11 @@ CrossContextsSettings.grid.Settings = function (config) {
         , colModel: new Ext.ux.grid.LockingColumnModel(colModel)
         , fields: columns
         , paging: true
+        , pageSize: 10
         , remoteSort: true
         , anchor: '97%'
         , view: new Ext.ux.grid.LockingGridView()
-        , height: 580
-//        , bodyStyle: 'min-height: 400px;'
+        , height: 595
         , autoHeight: false
         , save_action: 'mgr/settings/updatefromgrid'
         , autosave: true
