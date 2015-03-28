@@ -76,6 +76,7 @@ class SettingUpdateFromGridProcessor extends modObjectProcessor {
                 $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] Could not save setting "' . $props['key'] . '" for context "' . $k . '"');
             }
         }
+        return $this->success();
     }
 
 }
