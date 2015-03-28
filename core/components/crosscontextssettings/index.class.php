@@ -48,11 +48,6 @@ abstract class CrossContextsSettingsManagerController extends modExtraManagerCon
     public function getLanguageTopics() {
         return array('crosscontextssettings:default', 'setting');
     }
-
-    public function checkPermissions() {
-        return true;
-    }
-
 }
 
 class IndexManagerController extends CrossContextsSettingsManagerController {
