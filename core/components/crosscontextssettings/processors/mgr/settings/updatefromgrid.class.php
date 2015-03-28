@@ -64,16 +64,20 @@ class SettingUpdateFromGridProcessor extends modObjectProcessor {
                     $setting->set('context_key', $k);
                     $setting->set('value', $props[$k]);
                     if ($setting->save() === false) {
+                        $message = $this->modx->lexicon('crosscontextssettings.err_setting_save', array('key' => $props['key'], 'context' => $k));
                         $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
-                        $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] Could not save setting "' . $props['key'] . '" for context "' . $k . '"');
+                        $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] ' . $message);
+                        return $this->failure($message);
                     }
                 }
                 continue;
             }
             $setting->set('value', $props[$k]);
             if ($setting->save() === false) {
+                $message = $this->modx->lexicon('crosscontextssettings.err_setting_save', array('key' => $props['key'], 'context' => $k));
                 $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
-                $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] Could not save setting "' . $props['key'] . '" for context "' . $k . '"');
+                $this->modx->log(modX::LOG_LEVEL_ERROR, __LINE__ . ': [CCS] ' . $message);
+                return $this->failure($message);
             }
         }
         return $this->success();
