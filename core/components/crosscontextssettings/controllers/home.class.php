@@ -28,7 +28,7 @@
 class CrossContextsSettingsHomeManagerController extends CrossContextsSettingsManagerController {
 
     public function process(array $scriptProperties = array()) {
-        
+
     }
 
     public function getPageTitle() {
@@ -43,6 +43,10 @@ class CrossContextsSettingsHomeManagerController extends CrossContextsSettingsMa
         $this->addJavascript($this->crosscontextssettings->config['jsUrl'] . 'mgr/widgets/grid.settings.js');
         $this->addJavascript($this->crosscontextssettings->config['jsUrl'] . 'mgr/widgets/panel.home.js');
         $this->addLastJavascript($this->crosscontextssettings->config['jsUrl'] . 'mgr/sections/index.js');
+        $this->addHtml('
+            <script type="text/javascript">
+                MODx.version_is22 = ' . version_compare('2.2.100', $this->modx->getOption('settings_version')) . '
+            </script>');
     }
 
     public function getTemplateFile() {

@@ -37,18 +37,18 @@ CrossContextsSettings.grid.Settings = function (config) {
         , colModel: new Ext.ux.grid.LockingColumnModel(colModel)
         , fields: columns
         , paging: true
+        , pageSize: 10
         , remoteSort: true
         , anchor: '97%'
         , view: new Ext.ux.grid.LockingGridView()
-        , height: 580
-//        , bodyStyle: 'min-height: 400px;'
+        , height: 595
         , autoHeight: false
         , save_action: 'mgr/settings/updatefromgrid'
         , autosave: true
         , tbar: [
 //            {
 //                text: _('setting_create')
-//            }, 
+//            },
             '->', {
                 xtype: 'modx-combo-namespace'
                 , name: 'namespace'
@@ -68,9 +68,8 @@ CrossContextsSettings.grid.Settings = function (config) {
                 , name: 'area'
                 , id: 'modx-filter-area'
                 , emptyText: _('area_filter')
-//                , url: MODx.config.connectors_url +'system/settings.php'
                 , baseParams: {
-                    action: 'getAreas'
+                    action: (MODx.version_is22 ? 'getAreas' : 'system/settings/getAreas')
                     , 'namespace': MODx.request['namespace'] ? MODx.request['namespace'] : 'core'
                 }
                 , width: 250

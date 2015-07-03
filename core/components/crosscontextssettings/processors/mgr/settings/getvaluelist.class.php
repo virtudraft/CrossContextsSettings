@@ -58,7 +58,7 @@ class CrossContextsSettingsSettingsGetListProcessor extends modObjectGetListProc
         /* query for chunks */
         $c = $this->modx->newQuery($this->classKey);
         $c = $this->prepareQueryBeforeCount($c);
-//        $data['total'] = $this->modx->getCount($this->classKey, $c);
+        $version = $this->modx->getVersionData();
         $data['total'] = $this->modx->crosscontextssettings->getQueryCount($this->classKey, $c);
         $c = $this->prepareQueryAfterCount($c);
         $sortClassKey = $this->getSortClassKey();

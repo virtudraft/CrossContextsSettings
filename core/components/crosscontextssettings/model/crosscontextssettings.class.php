@@ -28,7 +28,7 @@
 class CrossContextsSettings {
 
     const VERSION = '1.0.0';
-    const RELEASE = 'beta2';
+    const RELEASE = 'beta3';
 
     /**
      * modX object
