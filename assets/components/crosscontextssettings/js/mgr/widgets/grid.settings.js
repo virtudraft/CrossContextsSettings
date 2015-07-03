@@ -69,7 +69,7 @@ CrossContextsSettings.grid.Settings = function (config) {
                 , id: 'modx-filter-area'
                 , emptyText: _('area_filter')
                 , baseParams: {
-                    action: (MODx.version_is22 ? 'getAreas' : 'system/settings/getAreas')
+                    action: (MODx.version_is22 === 1 ? 'getAreas' : 'system/settings/getAreas')
                     , 'namespace': MODx.request['namespace'] ? MODx.request['namespace'] : 'core'
                 }
                 , width: 250
