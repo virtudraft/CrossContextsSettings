@@ -1,4 +1,4 @@
-CrossContextsSettings 1.0.0-beta3 (March 28, 2015)
+CrossContextsSettings 1.0.0-beta3 (July 03, 2015)
 -------------------------------------------------------
 - fixing pagination issue in MODX Revolution 2.3
 - reduced pagesize to 10 and adapted grid height to show the whole grid
