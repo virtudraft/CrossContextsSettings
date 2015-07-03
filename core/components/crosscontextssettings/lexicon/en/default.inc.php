@@ -30,3 +30,4 @@ $_lang['crosscontextssettings.about'] = 'About';
 $_lang['crosscontextssettings.settings'] = 'Settings';
 $_lang['crosscontextssettings.settings_desc'] = 'Manage multiple contexts\' settings.<ol><li>Edit the value by double clicking the grid\'s cell.</li></ol>';
 $_lang['crosscontextssettings.usergroups'] = 'Usergroups';
+$_lang['crosscontextssettings.err_setting_save'] = 'Could not save setting "[[+key]]" for context "[[+context]]"';
