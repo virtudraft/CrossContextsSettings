@@ -54,6 +54,7 @@ CrossContextsSettings.grid.Settings = function (config) {
                 , cls: 'primary-button'
                 , handler: {
                     xtype: 'crosscontextssettings-window-setting-create'
+                    , blankValues: true
                     , contexts: contexts
                 }
             }, '->', {
