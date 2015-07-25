@@ -124,7 +124,30 @@ CrossContextsSettings.grid.Settings = function (config) {
     CrossContextsSettings.grid.Settings.superclass.constructor.call(this, config);
 };
 Ext.extend(CrossContextsSettings.grid.Settings, MODx.grid.Grid, {
-    clearFilter: function () {
+    getMenu: function() {
+        return [{
+                text: _('remove')
+                , handler: this.removeSetting
+        }];
+    }
+    , removeSetting: function(btn, e) {
+        MODx.msg.confirm({
+            title: _('remove'),
+            text: _('setting_remove_confirm'),
+            url: CrossContextsSettings.config.connectorUrl,
+            params: {
+                action: 'mgr/settings/remove',
+                key: this.menu.record.key
+            },
+            listeners: {
+                'success': {
+                    fn: this.refresh,
+                    scope: this
+                }
+            }
+        });
+    }
+    , clearFilter: function () {
         var ns = MODx.request['namespace'] ? MODx.request['namespace'] : 'core';
         var store = this.getStore();
         store.baseParams.namespace = ns;

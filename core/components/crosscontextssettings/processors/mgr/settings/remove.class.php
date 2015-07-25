@@ -25,12 +25,13 @@
  * @package crosscontextssettings
  * @subpackage processor
  */
+class CrossContextsSettingsSettingsRemoveProcessor extends modProcessor {
 
-class CrossContextsSettingsSettingsCreateProcessor extends modProcessor {
-    public $languageTopics = array('setting','namespace');
+    public $languageTopics = array('setting', 'namespace');
     public $permission = 'settings';
     public $objectType = 'setting';
     public $primaryKeyField = 'key';
+
     /** @var modContext */
     protected $contexts = array();
 
@@ -40,38 +41,22 @@ class CrossContextsSettingsSettingsCreateProcessor extends modProcessor {
             return $this->modx->lexicon($this->objectType . '_err_ns');
         }
         $this->unsetProperty('action');
-        $contexts = $this->getProperty('contexts', false);
-        if (empty($contexts)) {
-            return $this->modx->lexicon('setting_err_nf');
-        }
-        $this->unsetProperty('contexts');
-        $this->contexts = json_decode($contexts, true);
-        foreach ($this->contexts as $fk) {
-            $context = $this->modx->getContext($fk);
-            if (empty($context)) {
-                return $this->modx->lexicon('setting_err_nf');
-            }
-        }
+
         return true;
     }
 
     public function process() {
         $props = $this->getProperties();
-
-        foreach ($this->contexts as $fk) {
-            $value = trim($props['value'][$fk]);
-            if (empty($value)) {
-                continue;
-            }
-            $result = $this->modx->runProcessor('context/setting/create', array(
-                'fk' => $fk,
+        $contextSettings = $this->modx->getCollection('modContextSetting', array(
+            'key' => $this->getProperty($this->primaryKeyField)
+        ));
+        if (!$contextSettings) {
+            return $this->failure($this->modx->lexicon('setting_err_nf'));;
+        }
+        foreach ($contextSettings as $setting) {
+            $result = $this->modx->runProcessor('context/setting/remove', array(
+                'context_key' => $setting->get('context_key'),
                 'key' => $props['key'],
-                'name' => $props['name'],
-                'description' => $props['description'],
-                'namespace' => $props['namespace'],
-                'xtype' => $props['xtype'],
-                'area' => $props['area'],
-                'value' => $value,
             ));
             if ($result->isError()) {
                 $response = $result->getAllErrors();
@@ -81,6 +66,7 @@ class CrossContextsSettingsSettingsCreateProcessor extends modProcessor {
 
         return $this->success();
     }
+
 }
 
-return 'CrossContextsSettingsSettingsCreateProcessor';
+return 'CrossContextsSettingsSettingsRemoveProcessor';
