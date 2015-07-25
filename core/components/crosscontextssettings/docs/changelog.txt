@@ -1,5 +1,6 @@
 CrossContextsSettings 1.0.0-pl (July 25, 2015)
 -------------------------------------------------------
+- added delete setting
 - [#2] Wanted: new context setting button
 
 CrossContextsSettings 1.0.0-beta3 (July 03, 2015)
