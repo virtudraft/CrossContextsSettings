@@ -40,6 +40,7 @@ class CrossContextsSettingsHomeManagerController extends CrossContextsSettingsMa
         $this->addJavascript($this->modx->config['manager_url'] . 'assets/modext/widgets/core/modx.combo.js');
         $this->addJavascript($this->modx->config['manager_url'] . 'assets/modext/widgets/core/modx.grid.settings.js');
         $this->addJavascript($this->crosscontextssettings->config['jsUrl'] . 'ux/LockingGridView/LockingGridView.js');
+        $this->addJavascript($this->crosscontextssettings->config['jsUrl'] . 'mgr/widgets/window.setting.create.js');
         $this->addJavascript($this->crosscontextssettings->config['jsUrl'] . 'mgr/widgets/grid.settings.js');
         $this->addJavascript($this->crosscontextssettings->config['jsUrl'] . 'mgr/widgets/panel.home.js');
         $this->addLastJavascript($this->crosscontextssettings->config['jsUrl'] . 'mgr/sections/index.js');

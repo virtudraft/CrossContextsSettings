@@ -1,3 +1,7 @@
+CrossContextsSettings 1.0.0-pl (July 25, 2015)
+-------------------------------------------------------
+- [#2] Wanted: new context setting button
+
 CrossContextsSettings 1.0.0-beta3 (July 03, 2015)
 -------------------------------------------------------
 - fixing pagination issue in MODX Revolution 2.3
