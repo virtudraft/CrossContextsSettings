@@ -3,7 +3,7 @@ CrossContextsSettings.grid.Settings = function (config) {
 
     var colModel = [];
     var columns = [];
-
+    var contexts = [];
     if (config.record) {
         colModel.push({
             header: _('key')
@@ -24,8 +24,10 @@ CrossContextsSettings.grid.Settings = function (config) {
                 , editor: item.editor
             });
             columns.push(item.key);
+            contexts.push(item.key);
         });
     }
+
     Ext.applyIf(config, {
         id: 'crosscontextssettings-grid-settings'
         , url: CrossContextsSettings.config.connectorUrl
@@ -46,10 +48,15 @@ CrossContextsSettings.grid.Settings = function (config) {
         , save_action: 'mgr/settings/updatefromgrid'
         , autosave: true
         , tbar: [
-//            {
-//                text: _('setting_create')
-//            },
-            '->', {
+            {
+                text: _('setting_create')
+                , scope: this
+                , cls: 'primary-button'
+                , handler: {
+                    xtype: 'crosscontextssettings-window-setting-create'
+                    , contexts: contexts
+                }
+            }, '->', {
                 xtype: 'modx-combo-namespace'
                 , name: 'namespace'
                 , id: 'modx-filter-namespace'
