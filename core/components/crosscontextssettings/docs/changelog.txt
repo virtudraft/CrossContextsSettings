@@ -1,3 +1,8 @@
+CrossContextsSettings 1.0.1-pl (July 26, 2015)
+-------------------------------------------------------
+- [#8] fixed bug on 0 as value
+- [#8] ignored same value
+
 CrossContextsSettings 1.0.0-pl (July 25, 2015)
 -------------------------------------------------------
 - added delete setting

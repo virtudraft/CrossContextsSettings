@@ -57,13 +57,14 @@ class SettingUpdateFromGridProcessor extends modObjectProcessor {
                 'key' => $props['key'],
                 'context_key' => $k,
             ));
-            if (!empty($v)) {
+            $v = trim($v);
+            if ($v !== '') {
                 if (!$setting) {
                     if (isset($props[$k])) {
                         $setting = $this->modx->newObject($this->classKey);
                         $setting->set('key', $props['key']);
                         $setting->set('context_key', $k);
-                        $setting->set('value', $props[$k]);
+                        $setting->set('value', $v);
                         if ($setting->save() === false) {
                             $message = $this->modx->lexicon('crosscontextssettings.err_setting_save', array('key' => $props['key'], 'context' => $k));
                             $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
@@ -74,7 +75,10 @@ class SettingUpdateFromGridProcessor extends modObjectProcessor {
                     }
                     continue;
                 }
-                $setting->set('value', $props[$k]);
+                if($setting->get('value') == $v) { //Skip saving same value
+                    continue;
+                }
+                $setting->set('value', $v);
                 if ($setting->save() === false) {
                     $message = $this->modx->lexicon('crosscontextssettings.err_setting_save', array('key' => $props['key'], 'context' => $k));
                     $this->modx->log(modX::LOG_LEVEL_ERROR, __METHOD__ . ' ');
