@@ -60,7 +60,7 @@ class CrossContextsSettingsSettingsCreateProcessor extends modProcessor {
 
         foreach ($this->contexts as $fk) {
             $value = trim($props['value'][$fk]);
-            if (empty($value)) {
+            if ($value === '') {
                 continue;
             }
             $result = $this->modx->runProcessor('context/setting/create', array(
