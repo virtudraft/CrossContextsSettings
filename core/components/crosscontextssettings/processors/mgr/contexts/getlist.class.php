@@ -59,12 +59,6 @@ class CrossContextsSettingsContextsGetListProcessor extends modObjectGetListProc
             } else {
                 $i = $k + 1;
             }
-            /**
-             * @todo: add more editor type variant here
-             */
-            $v['editor'] = array(
-                'xtype' => 'textfield'
-            );
             $newList[$i] = $v;
         }
         ksort($newList);

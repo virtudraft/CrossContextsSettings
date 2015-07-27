@@ -1,3 +1,8 @@
+CrossContextsSettings 1.0.2-dev
+-------------------------------------------------------
+- [#8] fixed bug on 0 as value on "Create"
+- [#10] set correct input type for setting value
+
 CrossContextsSettings 1.0.1-pl (July 26, 2015)
 -------------------------------------------------------
 - [#8] fixed bug on 0 as value

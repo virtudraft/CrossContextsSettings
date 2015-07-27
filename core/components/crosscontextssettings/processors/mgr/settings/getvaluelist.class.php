@@ -116,6 +116,7 @@ class CrossContextsSettingsSettingsGetListProcessor extends modObjectGetListProc
         $objectArray = $object->toArray();
 
         $output = array();
+        $row = array();
         if (!empty($this->columns) && is_array($this->columns)) {
             foreach ($this->columns as $column) {
                 if ($column === 'key') {
@@ -125,10 +126,21 @@ class CrossContextsSettingsSettingsGetListProcessor extends modObjectGetListProc
                         'context_key' => $column,
                         'key' => $objectArray['key'],
                     ));
+                    if (!isset($output['xtype'])) {
+                        $output['xtype'] = '';
+                    }
                     if ($setting) {
                         $output[$column] = $setting->get('value');
+                        $output['xtype'] = $setting->get('xtype');
                     } else {
                         $output[$column] = '';
+                        if (empty($output['xtype'])) {
+                            $check = $this->modx->getObject($this->classKey, array(
+                                'key' => $objectArray['key'],
+                                'xtype:!=' => '',
+                            ));
+                            $output['xtype'] = $check->get('xtype');
+                        }
                     }
                 }
             }
