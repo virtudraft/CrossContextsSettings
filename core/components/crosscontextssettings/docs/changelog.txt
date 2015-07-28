@@ -1,4 +1,4 @@
-CrossContextsSettings 1.0.2-dev
+CrossContextsSettings 1.0.2-pl (July 28, 2015)
 -------------------------------------------------------
 - [#9] added "Clear Cache" tab
 - [#8] fixed bug on 0 as value on "Create"
