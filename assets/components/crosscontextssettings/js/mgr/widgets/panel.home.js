@@ -1,12 +1,15 @@
 CrossContextsSettings.panel.Home = function (config) {
     config = config || {};
-    Ext.apply(config, {
+
+    var _this = this;
+
+    Ext.applyIf(config, {
         border: false
         , baseCls: 'modx-formpanel'
         , cls: 'container'
         , items: [
             {
-                html: '<h2>'+ _('crosscontextssettings') + ' <span style="font-size: small">'+ CrossContextsSettings.config.version+'</span></h2>'
+                html: '<h2>' + _('crosscontextssettings') + ' <span style="font-size: small">' + CrossContextsSettings.config.version + '</span></h2>'
                 , border: false
                 , cls: 'modx-page-header'
             }, {
@@ -26,29 +29,47 @@ CrossContextsSettings.panel.Home = function (config) {
                                 id: 'crosscontextssettings-grid-settings-holder'
                                 , border: false
                                 , preventRender: true
+                                , listeners: {
+                                    'afterrender': {
+                                        fn: function (tabPanel) {
+                                            this.getContextList(this.getSettingsGrid());
+                                        }
+                                        , scope: this
+                                    }
+                                }
                             }
                         ]
-//                    }, {
-//                        title: _('crosscontextssettings.usergroups')
-//                        , items: []
+                    }, {
+                        title: _('clear_cache')
+                        , items: [
+                            {
+                                html: '<p>' + _('crosscontextssettings.clear_cache_desc') + '</p>'
+                                , border: false
+                                , bodyCssClass: 'panel-desc'
+                            }, {
+                                id: 'crosscontextssettings-clearcache-panel-holder'
+                                , border: false
+                                , preventRender: true
+                                , listeners: {
+                                    'afterrender': {
+                                        fn: function (tabPanel) {
+                                            this.getContextList(this.getClearCachePanel());
+                                        }
+                                        , scope: this
+                                    }
+                                }
+                            }
+                        ]
                     }
                 ]
-                , listeners: {
-                    'beforerender': {
-                        fn: function (tabPanel) {
-                            this.makeGrid();
-                        }
-                        , scope: this
-                    }
-                }
             }, {
                 html: '<a href="javascript:void(0);" style="color: #bbbbbb;" id="crosscontextssettings_about">' + _('crosscontextssettings.about') + '</a>',
                 border: false,
                 bodyStyle: 'font-size: 10px; margin: 5px; background: transparent;',
                 listeners: {
-                    afterrender: function() {
-                        Ext.get('crosscontextssettings_about').on('click', function() {
-                            var msg = '&copy; 2014, ';
+                    afterrender: function () {
+                        Ext.get('crosscontextssettings_about').on('click', function () {
+                            var msg = '&copy; 2014-2015, ';
                             msg += '<a href="http://www.virtudraft.com" target="_blank">';
                             msg += 'www.virtudraft.com';
                             msg += '</a><br/>';
@@ -63,8 +84,15 @@ CrossContextsSettings.panel.Home = function (config) {
     CrossContextsSettings.panel.Home.superclass.constructor.call(this, config);
 };
 Ext.extend(CrossContextsSettings.panel.Home, MODx.Panel, {
-    makeGrid: function () {
-        MODx.Ajax.request({
+    contexts: {},
+    getContextList: function (callback) {
+        if (this.contexts.length > 0) {
+            if (typeof (callback) === 'function') {
+                return callback();
+            }
+            return this.contexts;
+        }
+        return MODx.Ajax.request({
             url: CrossContextsSettings.config.connectorUrl
             , params: {
                 action: 'mgr/contexts/getlist'
@@ -73,7 +101,10 @@ Ext.extend(CrossContextsSettings.panel.Home, MODx.Panel, {
                 'success': {
                     fn: function (r) {
                         if (r.success) {
-                            this.getSettingsGrid(r.results);
+                            this.contexts = r.results;
+                            if (typeof (callback) === 'function') {
+                                return callback();
+                            }
                         }
                     }
                     , scope: this
@@ -81,14 +112,23 @@ Ext.extend(CrossContextsSettings.panel.Home, MODx.Panel, {
             }
         });
     }
-    , getSettingsGrid: function (record) {
+    , getSettingsGrid: function () {
         MODx.load({
             xtype: 'crosscontextssettings-grid-settings'
-            , record: record
+            , record: this.contexts
             , cls: 'main-wrapper'
             , preventRender: true
             , applyTo: 'crosscontextssettings-grid-settings-holder'
         });
+    }
+    , getClearCachePanel: function () {
+        var ccForm = new CrossContextsSettings.panel.ClearCache({
+            record: this.contexts
+            , cls: 'main-wrapper'
+        });
+        var holder = Ext.getCmp('crosscontextssettings-clearcache-panel-holder');
+        holder.add(ccForm);
+        holder.doLayout();
     }
 });
 Ext.reg('crosscontextssettings-panel-home', CrossContextsSettings.panel.Home);

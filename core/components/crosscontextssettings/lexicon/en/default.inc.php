@@ -23,7 +23,6 @@
  * @package crosscontextssettings
  * @subpackage lexicon
  */
-
 $_lang['crosscontextssettings'] = 'Cross Contexts Settings';
 $_lang['crosscontextssettings_desc'] = 'Multiple Contexts Settings Manager';
 $_lang['crosscontextssettings.about'] = 'About';
@@ -31,3 +30,5 @@ $_lang['crosscontextssettings.settings'] = 'Settings';
 $_lang['crosscontextssettings.settings_desc'] = 'Manage multiple contexts\' settings.<ol><li>Edit the value by double clicking the grid\'s cell.</li></ol>';
 $_lang['crosscontextssettings.usergroups'] = 'Usergroups';
 $_lang['crosscontextssettings.err_setting_save'] = 'Could not save setting "[[+key]]" for context "[[+context]]"';
+$_lang['crosscontextssettings.clear_cache_desc'] = 'Clear the cache files under the selected context.<br>On a big and busy website, this can slow the site a bit because new caches need to be created again.';
+$_lang['crosscontextssettings.context_err_ns'] = 'You need at least select 1 (one) context.';

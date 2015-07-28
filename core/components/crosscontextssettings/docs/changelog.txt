@@ -1,3 +1,9 @@
+CrossContextsSettings 1.0.2-pl (July 28, 2015)
+-------------------------------------------------------
+- [#9] added "Clear Cache" tab
+- [#8] fixed bug on 0 as value on "Create"
+- [#10] set correct input type for setting value
+
 CrossContextsSettings 1.0.1-pl (July 26, 2015)
 -------------------------------------------------------
 - [#8] fixed bug on 0 as value
