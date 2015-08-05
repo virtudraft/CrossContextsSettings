@@ -41,8 +41,19 @@ class CrossContextsSettingsSettingsGetListProcessor extends modObjectGetListProc
     public function initialize() {
         $columns = $this->getProperty('columns');
         if ($columns) {
-            $this->columns = array_map('trim', @explode(',', $columns));
+            $columns = array_map('trim', @explode(',', $columns));
+            foreach($columns as $k => $v) {
+                if (empty($v)) {
+                    unset($columns[$k]);
+                }
+            }
+            $count = count($columns);
+            if ($count < 3) {
+                return $this->modx->lexicon('crosscontextssettings.context_err_ns');
+            }
+            $this->columns = $columns;
         }
+
         return parent::initialize();
     }
 
@@ -116,7 +127,6 @@ class CrossContextsSettingsSettingsGetListProcessor extends modObjectGetListProc
         $objectArray = $object->toArray();
 
         $output = array();
-        $row = array();
         if (!empty($this->columns) && is_array($this->columns)) {
             foreach ($this->columns as $column) {
                 if ($column === 'key') {

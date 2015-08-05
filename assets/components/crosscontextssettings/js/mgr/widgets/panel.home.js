@@ -32,7 +32,7 @@ CrossContextsSettings.panel.Home = function (config) {
                                 , listeners: {
                                     'afterrender': {
                                         fn: function (tabPanel) {
-                                            this.getContextList(this.getSettingsGrid());
+                                            this.getContextList();
                                         }
                                         , scope: this
                                     }
@@ -53,7 +53,7 @@ CrossContextsSettings.panel.Home = function (config) {
                                 , listeners: {
                                     'afterrender': {
                                         fn: function (tabPanel) {
-                                            this.getContextList(this.getClearCachePanel());
+                                            this.getContextList();
                                         }
                                         , scope: this
                                     }
@@ -84,14 +84,8 @@ CrossContextsSettings.panel.Home = function (config) {
     CrossContextsSettings.panel.Home.superclass.constructor.call(this, config);
 };
 Ext.extend(CrossContextsSettings.panel.Home, MODx.Panel, {
-    contexts: {},
-    getContextList: function (callback) {
-        if (this.contexts.length > 0) {
-            if (typeof (callback) === 'function') {
-                return callback();
-            }
-            return this.contexts;
-        }
+    contexts: [],
+    getContextList: function () {
         return MODx.Ajax.request({
             url: CrossContextsSettings.config.connectorUrl
             , params: {
@@ -102,9 +96,8 @@ Ext.extend(CrossContextsSettings.panel.Home, MODx.Panel, {
                     fn: function (r) {
                         if (r.success) {
                             this.contexts = r.results;
-                            if (typeof (callback) === 'function') {
-                                return callback();
-                            }
+                            this.getSettingsGrid();
+                            this.getClearCachePanel();
                         }
                     }
                     , scope: this
@@ -113,6 +106,9 @@ Ext.extend(CrossContextsSettings.panel.Home, MODx.Panel, {
         });
     }
     , getSettingsGrid: function () {
+        if (this.contexts.length < 1) {
+            return;
+        }
         MODx.load({
             xtype: 'crosscontextssettings-grid-settings'
             , record: this.contexts
@@ -122,6 +118,9 @@ Ext.extend(CrossContextsSettings.panel.Home, MODx.Panel, {
         });
     }
     , getClearCachePanel: function () {
+        if (this.contexts.length < 1) {
+            return;
+        }
         var ccForm = new CrossContextsSettings.panel.ClearCache({
             record: this.contexts
             , cls: 'main-wrapper'
