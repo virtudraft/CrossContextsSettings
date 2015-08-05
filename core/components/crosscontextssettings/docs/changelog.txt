@@ -1,3 +1,7 @@
+CrossContextsSettings 1.0.3-pl (August 5, 2015)
+-------------------------------------------------------
+- [#12] lost contexts when parsing the panels
+
 CrossContextsSettings 1.0.2-pl (July 28, 2015)
 -------------------------------------------------------
 - [#9] added "Clear Cache" tab

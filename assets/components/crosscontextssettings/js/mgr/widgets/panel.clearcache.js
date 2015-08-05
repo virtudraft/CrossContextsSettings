@@ -41,7 +41,7 @@ Ext.extend(CrossContextsSettings.panel.ClearCache, MODx.FormPanel, {
             Ext.each(record, function (item) {
                 _this.add({
                     xtype: 'xcheckbox'
-                    , boxLabel: item.name
+                    , boxLabel: item.name || item.key
                     , name: 'ctxs[' + item.key + ']'
                 });
             });
