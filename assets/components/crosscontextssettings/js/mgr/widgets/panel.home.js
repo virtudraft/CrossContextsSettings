@@ -19,6 +19,7 @@ CrossContextsSettings.panel.Home = function (config) {
                 , items: [
                     {
                         title: _('crosscontextssettings.settings')
+                        , preventRender: true
                         , defaults: {autoHeight: true}
                         , items: [
                             {
@@ -27,12 +28,12 @@ CrossContextsSettings.panel.Home = function (config) {
                                 , bodyCssClass: 'panel-desc'
                             }, {
                                 id: 'crosscontextssettings-grid-settings-holder'
-                                , border: false
                                 , preventRender: true
+                                , border: false
                                 , listeners: {
                                     'afterrender': {
                                         fn: function (tabPanel) {
-                                            this.getContextList();
+                                            this.getContextList('getSettingsGrid');
                                         }
                                         , scope: this
                                     }
@@ -41,6 +42,7 @@ CrossContextsSettings.panel.Home = function (config) {
                         ]
                     }, {
                         title: _('clear_cache')
+                        , preventRender: true
                         , items: [
                             {
                                 html: '<p>' + _('crosscontextssettings.clear_cache_desc') + '</p>'
@@ -48,12 +50,12 @@ CrossContextsSettings.panel.Home = function (config) {
                                 , bodyCssClass: 'panel-desc'
                             }, {
                                 id: 'crosscontextssettings-clearcache-panel-holder'
-                                , border: false
                                 , preventRender: true
+                                , border: false
                                 , listeners: {
                                     'afterrender': {
                                         fn: function (tabPanel) {
-                                            this.getContextList();
+                                            this.getContextList('getClearCachePanel');
                                         }
                                         , scope: this
                                     }
@@ -85,7 +87,13 @@ CrossContextsSettings.panel.Home = function (config) {
 };
 Ext.extend(CrossContextsSettings.panel.Home, MODx.Panel, {
     contexts: [],
-    getContextList: function () {
+    getContextList: function (callback) {
+        if (this.contexts.length > 0) {
+            if (typeof(this[callback]) === 'function') {
+                return this[callback].call(this, this.config);
+            }
+            return this.contexts;
+        }
         return MODx.Ajax.request({
             url: CrossContextsSettings.config.connectorUrl
             , params: {
@@ -96,8 +104,9 @@ Ext.extend(CrossContextsSettings.panel.Home, MODx.Panel, {
                     fn: function (r) {
                         if (r.success) {
                             this.contexts = r.results;
-                            this.getSettingsGrid();
-                            this.getClearCachePanel();
+                            if (this.contexts.length > 0 && typeof(this[callback]) === 'function') {
+                                return this[callback].call(this, this.config);
+                            }
                         }
                     }
                     , scope: this
@@ -124,6 +133,7 @@ Ext.extend(CrossContextsSettings.panel.Home, MODx.Panel, {
         var ccForm = new CrossContextsSettings.panel.ClearCache({
             record: this.contexts
             , cls: 'main-wrapper'
+            , preventRender: true
         });
         var holder = Ext.getCmp('crosscontextssettings-clearcache-panel-holder');
         holder.add(ccForm);
