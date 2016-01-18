@@ -1,3 +1,7 @@
+CrossContextsSettings 1.0.4-pl (January 18, 2016)
+-------------------------------------------------------
+- [#14] Fixed grid for context's name beyond [w]eb
+
 CrossContextsSettings 1.0.3-pl (August 5, 2015)
 -------------------------------------------------------
 - [#12] lost contexts when parsing the panels

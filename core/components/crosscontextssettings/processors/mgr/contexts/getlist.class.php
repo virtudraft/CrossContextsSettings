@@ -53,15 +53,16 @@ class CrossContextsSettingsContextsGetListProcessor extends modObjectGetListProc
      */
     public function afterIteration(array $list) {
         $newList = array();
+        $web = array();
         foreach ($list as $k => $v) {
             if ($v['key'] === 'web') {
-                $i = 0;
-            } else {
-                $i = $k + 1;
+                $web = $v;
+                continue;
             }
-            $newList[$i] = $v;
+            $newList[] = $v;
         }
-        ksort($newList);
+        array_unshift($newList, $web);
+
         return $newList;
     }
 
