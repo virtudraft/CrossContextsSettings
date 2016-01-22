@@ -1,0 +1,7 @@
+.x-panel-bbar .x-toolbar .xtb-text {
+	margin:0 20px 0 0
+}
+
+.actions,.x-column-inner,.x-column-inner>.x-column,.x-panel-body,.x-panel-bwrap {
+	overflow: hidden;
+}
