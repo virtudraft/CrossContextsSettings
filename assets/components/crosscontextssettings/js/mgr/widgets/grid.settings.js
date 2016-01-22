@@ -7,16 +7,35 @@ CrossContextsSettings.grid.Settings = function (config) {
     var _this = this;
 
     if (config.record) {
+        fields.push('key');
+        fields.push('xtype');
+        fields.push('namespace');
+        fields.push('area');
         columns.push({
             header: _('key')
-            , width: 300
+            , width: 150
             , sortable: true
             , dataIndex: 'key'
             , locked: true
             , id: 'key'
         });
-        fields.push('key');
-        fields.push('xtype');
+        columns.push({
+            header: _('namespace')
+            , width: 100
+            , sortable: true
+            , dataIndex: 'namespace'
+            , locked: true
+            , id: 'namespace'
+        });
+        columns.push({
+            header: _('area')
+            , width: 100
+            , sortable: true
+            , dataIndex: 'area'
+            , locked: true
+            , id: 'area'
+            , hidden: true
+        });
         Ext.each(config.record, function (item, index) {
             columns.push({
                 header: item.key
@@ -62,7 +81,9 @@ CrossContextsSettings.grid.Settings = function (config) {
         , pageSize: 10
         , remoteSort: true
         , anchor: '97%'
-        , view: new Ext.ux.grid.LockingGridView()
+        , view: new Ext.ux.grid.LockingGridView({
+            syncHeights:true
+        })
         , height: 595
         , autoHeight: false
         , save_action: 'mgr/settings/updatefromgrid'
@@ -77,12 +98,11 @@ CrossContextsSettings.grid.Settings = function (config) {
                     , blankValues: true
                     , contexts: contexts
                 }
-            }, '->', {
+            }, {
                 xtype: 'modx-combo-namespace'
                 , name: 'namespace'
                 , id: 'modx-filter-namespace'
                 , emptyText: _('namespace_filter')
-                , value: MODx.request['namespace'] ? MODx.request['namespace'] : 'core'
                 , allowBlank: true
                 , width: 150
                 , listeners: {
@@ -98,7 +118,6 @@ CrossContextsSettings.grid.Settings = function (config) {
                 , emptyText: _('area_filter')
                 , baseParams: {
                     action: (MODx.version_is22 === 1 ? 'getAreas' : 'system/settings/getAreas')
-                    , 'namespace': MODx.request['namespace'] ? MODx.request['namespace'] : 'core'
                 }
                 , width: 250
                 , allowBlank: true
@@ -169,14 +188,13 @@ Ext.extend(CrossContextsSettings.grid.Settings, MODx.grid.Grid, {
         });
     }
     , clearFilter: function () {
-        var ns = MODx.request['namespace'] ? MODx.request['namespace'] : 'core';
         var store = this.getStore();
-        store.baseParams.namespace = ns;
+        store.baseParams.namespace = '';
         store.baseParams.area = '';
         Ext.getCmp('modx-filter-namespace').reset();
         var acb = Ext.getCmp('modx-filter-area');
         if (acb) {
-            acb.store.baseParams.namespace = ns;
+            acb.store.baseParams.namespace = '';
             acb.store.load();
             acb.reset();
         }
