@@ -70,7 +70,7 @@ class CrossContextsSettingsSettingsGetListProcessor extends modObjectGetListProc
         $c = $this->modx->newQuery($this->classKey);
         $c = $this->prepareQueryBeforeCount($c);
         $version = $this->modx->getVersionData();
-        $data['total'] = $this->modx->crosscontextssettings->getQueryCount($this->classKey, $c);
+        $data['total'] = $this->modx->getCount($this->classKey, $c);
         $c = $this->prepareQueryAfterCount($c);
         $sortClassKey = $this->getSortClassKey();
         $sortKey = $this->modx->getSelectColumns($sortClassKey, $this->getProperty('sortAlias', $sortClassKey), '', array($this->getProperty('sort')));
@@ -129,8 +129,8 @@ class CrossContextsSettingsSettingsGetListProcessor extends modObjectGetListProc
         $output = array();
         if (!empty($this->columns) && is_array($this->columns)) {
             foreach ($this->columns as $column) {
-                if ($column === 'key') {
-                    $output[$column] = $objectArray['key'];
+                if ($column === 'key' || $column === 'namespace' || $column === 'area') {
+                    $output[$column] = $objectArray[$column];
                 } else {
                     $setting = $this->modx->getObject($this->classKey, array(
                         'context_key' => $column,
@@ -149,7 +149,9 @@ class CrossContextsSettingsSettingsGetListProcessor extends modObjectGetListProc
                                 'key' => $objectArray['key'],
                                 'xtype:!=' => '',
                             ));
-                            $output['xtype'] = $check->get('xtype');
+                            if ($check) {
+                                $output['xtype'] = $check->get('xtype');
+                            }
                         }
                     }
                 }
@@ -158,7 +160,6 @@ class CrossContextsSettingsSettingsGetListProcessor extends modObjectGetListProc
 
         return $output;
     }
-
 }
 
 return 'CrossContextsSettingsSettingsGetListProcessor';
