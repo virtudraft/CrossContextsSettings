@@ -51,7 +51,9 @@ class SettingUpdateFromGridProcessor extends modObjectProcessor {
             if ($k === 'key' ||
                     $k === 'action' ||
                     $k === 'menu' ||
-                    $k === 'xtype'
+                    $k === 'xtype'  || 
+                    $k === 'context_key'  || 
+                    $k === 'area'
             ) {
                 continue;
             }
