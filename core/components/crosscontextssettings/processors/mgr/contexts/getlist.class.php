@@ -34,6 +34,28 @@ class CrossContextsSettingsContextsGetListProcessor extends modObjectGetListProc
     public $objectType = 'crosscontextssettings.contextsgetlist';
 
     /**
+     * Get the data of the query
+     * @return array
+     */
+    public function getData() {
+        $data = array();
+        
+        /* query for chunks */
+        $c = $this->modx->newQuery($this->classKey);
+        $c = $this->prepareQueryBeforeCount($c);
+        $data['total'] = $this->modx->getCount($this->classKey,$c);
+        $c = $this->prepareQueryAfterCount($c);
+        
+        $sortClassKey = $this->getSortClassKey();
+        $sortKey = $this->modx->getSelectColumns($sortClassKey,$this->getProperty('sortAlias',$sortClassKey),'',array($this->getProperty('sort')));
+        if (empty($sortKey)) $sortKey = $this->getProperty('sort');
+        $c->sortby($sortKey,$this->getProperty('dir'));
+        
+        $data['results'] = $this->modx->getCollection($this->classKey,$c);
+        return $data;
+    }
+
+    /**
      * Can be used to adjust the query prior to the COUNT statement
      *
      * @param xPDOQuery $c
